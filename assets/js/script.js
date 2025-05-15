@@ -35,7 +35,7 @@ btnCalc.addEventListener("click", function () {
       });
   } else {
     calcularValor(selected);
-    renderGrafica();
+    renderGrafica(selected);
   }
 
 });
@@ -66,10 +66,7 @@ const calcularValor = async (selected) => {
 };
 
 // grafica
-async function getMonedas() {
-  var combo = document.querySelector("#miSelect");
-  var selected = combo.options[combo.selectedIndex].text;
-
+async function getMonedas(selected) {
   try {
     const endpoint = "https://mindicador.cl/api/" + selected;
     const res = await fetch(endpoint);
@@ -118,8 +115,8 @@ function prepararConfiguracionParaLaGrafica(monedas) {
 }
 
 let chartInstance = null;
-async function renderGrafica() {
-  const monedas = await getMonedas();
+async function renderGrafica(selected) {
+  const monedas = await getMonedas(selected);
   const config = prepararConfiguracionParaLaGrafica(monedas);
   const chartDOM = document.getElementById("myChart");
   if (chartInstance) {
