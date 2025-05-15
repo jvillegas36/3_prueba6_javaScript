@@ -26,18 +26,17 @@ const btnCalc = document.querySelector("#btnCalcular");
 btnCalc.addEventListener("click", function () {
   var combo = document.querySelector("#miSelect");
   var selected = combo.options[combo.selectedIndex].text;
-  console.log(selected)
-  if (selected == 'Seleccione Moneda') {
-     Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Debe seleccionar una moneda, para continuar",
-      });
+  console.log(selected);
+  if (selected == "Seleccione Moneda") {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: "Debe seleccionar una moneda, para continuar",
+    });
   } else {
     calcularValor(selected);
     renderGrafica(selected);
   }
-
 });
 
 const calcularValor = async (selected) => {
@@ -88,7 +87,11 @@ function prepararConfiguracionParaLaGrafica(monedas) {
 
   const tipoDeGrafica = "line";
   //console.log((monedas[0].fecha.split('T')[0]));
-  const nombresFechas = monedas.map((moneda) => moneda.fecha.split("T")[0]);
+  const nombresFechas = monedas.map((moneda) => {
+    const date = new Date(moneda.fecha.split("T")[0]);
+    return date.toLocaleDateString("es-ES"); // Esto da 'dd/mm/yyyy'
+    //return moneda.fecha.split("T")[0]
+  });
   const titulo = `Historial últimos 10 registros, ${selected.toUpperCase()}`;
   const colorDeLinea = "red";
   const valores = monedas.map((moneda) => {
